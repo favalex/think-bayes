@@ -21,4 +21,5 @@ for n in [500, 1000, 2000]:
 	train = Bayes(TrainModel(n))
 	for t in [60, 30, 90]:
 		train.update(t)
-	print(train.mean())
+	print("Mean: {}".format(train.mean()))
+	print("90% credible interval: {} {}".format(train.percentile(5), train.percentile(95)))
