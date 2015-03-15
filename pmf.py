@@ -65,6 +65,15 @@ class Pmf:
 	def max(pmf1, pmf2):
 		return combine(pmf1, pmf2, max)
 
+	@staticmethod
+	def make_mixture(pmf):
+		res = Pmf()
+		for inner_pmf, weight in pmf.probs.items():
+			for value, prob in inner_pmf.probs.items():
+				res.incr(value, prob*weight)
+		res.normalize()
+		return res
+
 def combine(pmf1, pmf2, operator):
 	res = Pmf()
 	for v1, p1 in pmf1.probs.items():

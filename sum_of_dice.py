@@ -13,3 +13,12 @@ three.plot()
 print()
 
 reduce(Pmf.max, (three for _ in range(6))).plot()
+
+pmf_dice = Pmf()
+pmf_dice.set(Die(4), 2)
+pmf_dice.set(Die(6), 3)
+pmf_dice.set(Die(8), 2)
+pmf_dice.set(Die(12), 1)
+pmf_dice.set(Die(20), 1)
+pmf_dice.normalize()
+Pmf.make_mixture(pmf_dice).plot()
