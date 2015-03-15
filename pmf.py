@@ -1,17 +1,14 @@
 #! /usr/bin/python3
 
 from collections import defaultdict
+import operator
 
 class Pmf:
 	def __init__(self):
 		self.probs = defaultdict(int)
 
 	def __add__(self, other):
-		pmf = Pmf()
-		for sv, sp in self.probs.items():
-			for ov, op in other.probs.items():
-				pmf.incr(sv+ov, sp*op)
-		return pmf
+		return combine(self, other, operator.add)
 
 	def set(self, value, prob):
 		self.probs[value] = prob
@@ -62,7 +59,18 @@ class Pmf:
 	def plot(self):
 		scale = 80 / max(self.probs.values())
 		for value, prob in sorted(self.probs.items()):
-			print("{:2d}: {}".format(value, '#'*int(prob*scale)))
+			print("{:2d}: {:80s} {:.2f}".format(value, '#'*int(prob*scale), prob))
+
+	@staticmethod
+	def max(pmf1, pmf2):
+		return combine(pmf1, pmf2, max)
+
+def combine(pmf1, pmf2, operator):
+	res = Pmf()
+	for v1, p1 in pmf1.probs.items():
+		for v2, p2 in pmf2.probs.items():
+			res.incr(operator(v1, v2), p1*p2)
+	return res
 
 if __name__ == '__main__':
 	from pprint import pprint
