@@ -40,6 +40,18 @@ class Pmf:
 			total += prob
 			if total >= p:
 				return value
+
+	def median(self):
+		return self.percentile(50)
+
+	def credible_interval(self, percentage):
+		half = percentage / 2
+		return self.percentile(50 - half), self.percentile(50 + half)
+
+	def maximum_likelihood(self):
+		_, value = max((prob, value) for value, prob in self.probs.items())
+		return value
+
 if __name__ == '__main__':
 	from pprint import pprint
 	pmf = Pmf()
