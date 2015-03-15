@@ -6,6 +6,13 @@ class Pmf:
 	def __init__(self):
 		self.probs = defaultdict(int)
 
+	def __add__(self, other):
+		pmf = Pmf()
+		for sv, sp in self.probs.items():
+			for ov, op in other.probs.items():
+				pmf.incr(sv+ov, sp*op)
+		return pmf
+
 	def set(self, value, prob):
 		self.probs[value] = prob
 
@@ -51,6 +58,11 @@ class Pmf:
 	def maximum_likelihood(self):
 		_, value = max((prob, value) for value, prob in self.probs.items())
 		return value
+
+	def plot(self):
+		scale = 80 / max(self.probs.values())
+		for value, prob in sorted(self.probs.items()):
+			print("{:2d}: {}".format(value, '#'*int(prob*scale)))
 
 if __name__ == '__main__':
 	from pprint import pprint
