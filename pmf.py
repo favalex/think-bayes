@@ -33,6 +33,13 @@ class Pmf:
 	def mean(self):
 		return sum(value*prob for value, prob in self.probs.items())
 
+	def percentile(self, percentage):
+		p = percentage / 100.0
+		total = 0
+		for value, prob in sorted(self.probs.items()):
+			total += prob
+			if total >= p:
+				return value
 if __name__ == '__main__':
 	from pprint import pprint
 	pmf = Pmf()
