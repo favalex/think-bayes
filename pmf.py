@@ -26,6 +26,13 @@ class Pmf:
 	def values(self):
 		return self.probs.keys()
 
+	def print(self):
+		for value, prob in sorted(self.probs.items()):
+			print("{}: {}".format(value, prob))
+
+	def mean(self):
+		return sum(value*prob for value, prob in self.probs.items())
+
 if __name__ == '__main__':
 	from pprint import pprint
 	pmf = Pmf()
