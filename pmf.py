@@ -70,6 +70,7 @@ def combine(pmf1, pmf2, operator):
 	for v1, p1 in pmf1.probs.items():
 		for v2, p2 in pmf2.probs.items():
 			res.incr(operator(v1, v2), p1*p2)
+	res.normalize()
 	return res
 
 if __name__ == '__main__':
