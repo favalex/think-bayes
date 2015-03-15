@@ -26,6 +26,14 @@ class Bayes(Pmf):
 		self.normalize()
 
 	def update(self, *data):
+		self.update_unnormalized(data)
+		self.normalize()
+
+	def update_set(self, dataset):
+		for data in dataset:
+			self.update_unnormalized([data])
+		self.normalize()
+
+	def update_unnormalized(self, data):
 		for hypo in self.values():
 			self.mult(hypo, self.model.likelihood(data, hypo))
-		self.normalize()
